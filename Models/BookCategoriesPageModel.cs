@@ -6,6 +6,7 @@ namespace Lucaci_Andreea_Lab2.Models
     public class BookCategoriesPageModel:PageModel
     {
         public List<AssignedCategoryData> AssignedCategoryDataList;
+        public List<AssignedAuthorData> AssignedAuthorDataList;
         public void PopulateAssignedCategoryData(Lucaci_Andreea_Lab2Context context,
         Book book)
         {
@@ -20,6 +21,23 @@ namespace Lucaci_Andreea_Lab2.Models
                     CategoryID = cat.ID,
                     Name = cat.CategoryName,
                     Assigned = bookCategories.Contains(cat.ID)
+                });
+            }
+        }
+        public void PopulateAssignedAuthorData(Lucaci_Andreea_Lab2Context context,
+Book book)
+        {
+            var allAuthors = context.Author;
+            var bookAuthors = new HashSet<int>(
+            book.AuthorCategories.Select(c => c.AuthorID)); //
+            AssignedAuthorDataList = new List<AssignedAuthorData>();
+            foreach (var cat in allAuthors)
+            {
+                AssignedAuthorDataList.Add(new AssignedAuthorData
+                {
+                    AuthorID = cat.ID,
+                    FullName = cat.FullName,
+                    Assigned = bookAuthors.Contains(cat.ID)
                 });
             }
         }

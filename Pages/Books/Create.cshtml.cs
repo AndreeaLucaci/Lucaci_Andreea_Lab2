@@ -21,8 +21,9 @@ namespace Lucaci_Andreea_Lab2.Pages.Books
 
         public IActionResult OnGet()
         {
-            ViewData["PublisherID"] = new SelectList(_context.Set<Publisher>(), "ID",
-"PublisherName");
+            
+            ViewData["PublisherID"] = new SelectList(_context.Publisher, "ID", "PublisherName");
+
 
             var book = new Book();
             book.BookCategories = new List<BookCategory>();
@@ -33,7 +34,6 @@ namespace Lucaci_Andreea_Lab2.Pages.Books
 
         [BindProperty]
         public Book Book { get; set; }
-
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
 
@@ -52,18 +52,21 @@ namespace Lucaci_Andreea_Lab2.Pages.Books
                     newBook.BookCategories.Add(catToAdd);
                 }
             }
-            if (await TryUpdateModelAsync<Book>(
-            newBook,
-            "Book",
-            i => i.Title, i => i.Author,
-            i => i.Price, i => i.PublishingDate, i => i.PublisherID))
-            {
-                _context.Book.Add(newBook);
-                await _context.SaveChangesAsync();
-                return RedirectToPage("./Index");
-            }
+
+
+            Author mockAuth = new Author();
+            mockAuth.FirstName = "John";
+            mockAuth.LastName = "Doe";
+            newBook.Author = mockAuth;
+            newBook.Title = Book.Title;
+            newBook.Price = Book.Price;
+            newBook.PublisherID = Book.PublisherID;
+            newBook.PublishingDate = Book.PublishingDate;
+            
+            _context.Book.Add(newBook);
+            await _context.SaveChangesAsync();
             PopulateAssignedCategoryData(_context, newBook);
-            return Page();
+            return RedirectToPage("./Index");
         }
     }
 }
