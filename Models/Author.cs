@@ -19,7 +19,7 @@ namespace Lucaci_Andreea_Lab2.Models
             }
         }
 
-        public ICollection<AuthorCategory>? AuthorCategories { get; set; }
+        public ICollection<Book>? Books { get; set; }
 
     }
 }
