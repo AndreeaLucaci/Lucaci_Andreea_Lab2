@@ -1,4 +1,6 @@
-﻿namespace Lucaci_Andreea_Lab2.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Lucaci_Andreea_Lab2.Models
 {
     public class AuthorCategory
     {
@@ -7,5 +9,6 @@
         public Book Book { get; set; }
         public int AuthorID { get; set; }
         public Author Author { get; set; }
+      
     }
 }
